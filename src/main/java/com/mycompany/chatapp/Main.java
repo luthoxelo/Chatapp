@@ -37,15 +37,12 @@ while (true) {
     System.out.print("Enter a username: ");
     username = input.nextLine();
 
-    if (username.length() >= 5) {
-
+    if (login.checkUserName(username)) {
         System.out.println("Username successfully captured.");
         break;
-
     } else {
-
         System.out.println("Username is not correctly formatted.");
-        System.out.println("Please ensure that the username contains at least 5 characters.");
+        System.out.println("Please ensure that the username contains an underscore and is no more than five characters.");
     }
 }
 
@@ -55,39 +52,16 @@ while (true) {
     System.out.print("Enter a password: ");
     password = input.nextLine();
 
-    // Password must contain:
-    // at least 8 characters
-    // one capital letter
-    // one number
-
-    boolean hasCapital = false;
-    boolean hasNumber = false;
-
-    for (int i = 0; i < password.length(); i++) {
-
-        char ch = password.charAt(i);
-
-        if (Character.isUpperCase(ch)) {
-            hasCapital = true;
-        }
-
-        if (Character.isDigit(ch)) {
-            hasNumber = true;
-        }
-    }
-
-    if (password.length() >= 8 && hasCapital && hasNumber) {
-
+    if (login.checkPasswordComplexity(password)) {
         System.out.println("Password successfully captured.");
         break;
-
     } else {
-
         System.out.println("Password is not correctly formatted.");
         System.out.println("Password must contain:");
         System.out.println("- At least 8 characters");
         System.out.println("- One capital letter");
         System.out.println("- One number");
+        System.out.println("- One special character");
     }
 }
 
@@ -97,23 +71,26 @@ while (true) {
     System.out.print("Enter your South African phone number (+27...): ");
     phone = input.nextLine();
 
-    if (phone.startsWith("+27") && phone.length() == 12) {
-
+    if (login.checkCellphoneNumber(phone)) {
         System.out.println("Cell phone number successfully added.");
         break;
-
     } else {
-
         System.out.println("Cell phone number incorrectly formatted.");
         System.out.println("Number must start with +27 and contain 12 characters.");
     }
 }
 
 // ---------- REGISTER USER ----------
-String response = login.registerUser(username, password);
+String response = login.registerUser(username, password, phone);
 
 // ---------- SHOW FINAL RESPONSE ----------
 System.out.println(response);
+
+        if (!response.equals("User registered successfully.")) {
+            System.out.println("Registration failed. Exiting program.");
+            input.close();
+            return;
+        }
 
         // ================= LOGIN SECTION =================
         System.out.println("\n=== USER LOGIN ===");

@@ -24,6 +24,15 @@ public class Message {
 
     private static int totalMessagesSent = 0;
 
+    // No-argument constructor for tests and default creation
+    public Message() {
+        this.messageID = "";
+        this.messageNumber = 0;
+        this.recipient = "";
+        this.messageText = "";
+        this.messageHash = "";
+    }
+
     // Constructor
     public Message(String recipient, String messageText, int messageNumber) {
         this.messageID = checkMessageID();
@@ -33,7 +42,7 @@ public class Message {
         this.messageHash = createMessageHash();
     }
 
-    // Check message ID - generates 10-digit number 【890779647879069590855†L35-L35】
+    // Check message ID - generates 10-digit number
     public String checkMessageID() {
         Random rand = new Random();
         long id = 1000000000L + (long)(rand.nextDouble() * 9000000000L);
@@ -50,12 +59,44 @@ public class Message {
         }
     }
 
-    // Create message hash: first two digits of ID : messageNum : first+last word uppercase 【890779647879069590855†L35-L35】
+    // Create message hash: first two digits of ID : messageNum : first+last word uppercase
     public String createMessageHash() {
-        String[] words = messageText.trim().split("\\s+");
-        String firstWord = words[0].toUpperCase();
-        String lastWord = words[words.length - 1].toUpperCase();
-        return messageID.substring(0, 2) + ":" + messageNumber + ":" + firstWord + lastWord;
+        String text = messageText == null ? "" : messageText.trim();
+        String[] words = text.isEmpty() ? new String[]{""} : text.split("\\s+");
+        String firstWord = words[0].replaceAll("[^A-Za-z]", "").toUpperCase();
+        String lastWord = words[words.length - 1].replaceAll("[^A-Za-z]", "").toUpperCase();
+        String idPrefix = messageID != null && messageID.length() >= 2 ? messageID.substring(0, 2) : messageID;
+        return idPrefix + ":" + messageNumber + ":" + firstWord + lastWord;
+    }
+
+    public String checkMessageLength() {
+        if (messageText == null) {
+            messageText = "";
+        }
+        if (messageText.length() <= 250) {
+            return "Message ready to send.";
+        }
+        int over = messageText.length() - 250;
+        return "Message exceeds 250 characters by " + over + "; please reduce the size.";
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+        this.messageHash = createMessageHash();
+    }
+
+    public void setRecipientCell(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public void setMessageID(String messageID) {
+        this.messageID = messageID;
+        this.messageHash = createMessageHash();
+    }
+
+    public void setTotalMessages(int totalMessages) {
+        this.messageNumber = totalMessages;
+        this.messageHash = createMessageHash();
     }
 
     // SentMessage method - returns options 【890779647879069590855†L36-L36】
@@ -65,7 +106,7 @@ public class Message {
                 totalMessagesSent++;
                 return "Message successfully sent.";
             case 2: // Disregard
-                return "Press 0 to delete message.";
+                return "Press 0 to delete the message.";
             case 3: // Store
                 storeMessage();
                 return "Message successfully stored.";

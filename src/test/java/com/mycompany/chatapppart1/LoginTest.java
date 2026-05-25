@@ -46,11 +46,10 @@ public class LoginTest {
      
      
      @Test
-     public void testInvalidPassword_NoUnderscore() {
-     assertFalse(login.checkUserName("lu_x2"));
+     public void testInvalidPassword_NoCapital() {
+         assertFalse(login.checkPasswordComplexity("password"));
      }
 
-     
 //----------------- PASSWORD TESTS -----------------
      @Test
      public void testValidPassword() {
@@ -95,15 +94,14 @@ public void testInvalidPhoneNumber_MissingPlus27() {
 //LOGIN SUCCESSFUL
 @Test
 public void testLoginSuccess() {
-    login.registerUser ("lu_x2", "Ch&&sec@ke99");
-    
-    assertTrue(login.loginUser("lu_x2", "Ch&&sec@key"));
+    login.registerUser("lu_x2", "Ch&&sec@ke99", "+278389688976");
+    assertTrue(login.loginUser("lu_x2", "Ch&&sec@ke99"));
 }
-
 
 //LOGIN FAILED
 @Test
 public void testLoginFail() {
-    login.registerUser("lu_x2", "wrongpassword");
+    login.registerUser("lu_x2", "Ch&&sec@ke99", "+278389688976");
+    assertFalse(login.loginUser("lu_x2", "wrongpassword"));
 }
 }
