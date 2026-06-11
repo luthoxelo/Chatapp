@@ -1,10 +1,9 @@
 package com.mycompany.chatapp;
 
-import com.mycompany.chatapp.Login;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LoginTest {
+public class LoginTestt {
     Login login = new Login();
 
     @Test

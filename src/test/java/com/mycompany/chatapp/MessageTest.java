@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
  *
  * @author lutho
  */
-public class MessageTestt {
+public class MessageTest {
 
     Message msg1, msg2, msg3, msg4, msg5;
 
