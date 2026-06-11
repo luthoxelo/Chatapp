@@ -5,19 +5,19 @@ import java.util.Scanner;
 import com.mycompany.chatapp.Message;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Login login = new Login();
-        ArrayList<Message> messages = new ArrayList<>();
         int totalMessagesSent = 0;
 
+        // === REGISTRATION ===
         System.out.println("=== USER REGISTRATION ===");
 
         String username;
         String password;
         String phone;
 
-        // USERNAME LOOP
         while (true) {
             System.out.print("Enter a username: ");
             username = input.nextLine();
@@ -30,7 +30,6 @@ public class Main {
             }
         }
 
-        // PASSWORD LOOP
         while (true) {
             System.out.print("Enter a password: ");
             password = input.nextLine();
@@ -47,7 +46,6 @@ public class Main {
             }
         }
 
-        // PHONE LOOP
         while (true) {
             System.out.print("Enter your South African phone number (+27...): ");
             phone = input.nextLine();
@@ -69,7 +67,7 @@ public class Main {
             return;
         }
 
-        // LOGIN SECTION
+        // === LOGIN ===
         System.out.println("\n=== USER LOGIN ===");
         System.out.print("Enter your username: ");
         String loginUsername = input.nextLine();
@@ -77,23 +75,32 @@ public class Main {
         String loginPassword = input.nextLine();
 
         boolean loggedIn = login.loginUser(loginUsername, loginPassword);
-        String loginMessage = login.returnLoginStatus(loggedIn);
-        System.out.println(loginMessage);
+        System.out.println(login.returnLoginStatus(loggedIn));
 
-        // MESSAGING SECTION
-        if (loggedIn) {
-            System.out.println("Welcome to ChatApp.");
-            int choice;
+        if (!loggedIn) {
+            System.out.println("Login failed. Exiting program.");
+            input.close();
+            return;
+        }
 
-            do {
-                System.out.println("\n1. Send Message");
-                System.out.println("2. Show Recent Messages");
-                System.out.println("3. Quit");
-                System.out.print("Choose an option: ");
-                choice = input.nextInt();
-                input.nextLine();
+        // === MESSAGING ===
+        System.out.println("Welcome to ChatApp.");
+        Message.loadStoredMessages();
 
-                if (choice == 1) {
+        int mainChoice = -1;
+        while (mainChoice != 3) {
+            System.out.println("\n--- MAIN MENU ---");
+            System.out.println("1) Send Messages");
+            System.out.println("2) Show recently sent messages");
+            System.out.println("3) Quit");
+            System.out.println("4) Stored Messages");
+            System.out.print("Select an option: ");
+
+            mainChoice = input.nextInt();
+            input.nextLine();
+
+            switch (mainChoice) {
+                case 1:
                     System.out.print("How many messages do you want to send? ");
                     int numMessages = input.nextInt();
                     input.nextLine();
@@ -112,12 +119,10 @@ public class Main {
                             continue;
                         }
 
-                        // messageNumber is auto-generated now, pass 0
                         Message msg = new Message(recipient, text, 0);
-
                         System.out.println(msg.checkRecipientCell());
                         System.out.println("Message ID: " + msg.getMessageID());
-                        System.out.println("Message Hash: " + msg.createMessageHash());
+                        System.out.println("Message Hash: " + msg.getMessageHash());
 
                         System.out.println("Choose:");
                         System.out.println("1 - Send");
@@ -125,35 +130,89 @@ public class Main {
                         System.out.println("3 - Store");
 
                         int action = input.nextInt();
-                        input.nextLine();
+input.nextLine();
 
-                        String result = msg.sentMessage(action);
-                        System.out.println(result);
+String result = msg.sentMessage(action);
+System.out.println(result);
 
-                        if (action == 1) {
-                            totalMessagesSent++;
-                            messages.add(msg);
-                        } else if (action == 2 || action == 3) {
-                            messages.add(msg);
-                        }
-                    }
-                } else if (choice == 2) {
-                    if (messages.isEmpty()) {
-                        System.out.println("No messages available.");
-                    } else {
-                        for (Message m : messages) {
-                            System.out.println(m.printMessages());
-                            System.out.println("-------------------");
-                        }
-                    }
-                }
-            } while (choice!= 3);
+if (action == 1) {
+    totalMessagesSent++;
+} else if (action == 2) {
+    System.out.print("Enter 0 to confirm disregard: ");
+    int confirm = input.nextInt();
+    input.nextLine();
+    if (confirm == 0) {
+        System.out.println("Message successfully disregarded.");
+    } else {
+        System.out.println("Disregard cancelled. Message kept.");
+    }
+}
+    }
+    break;
+case 2:
+    System.out.println(Message.printMessages());
+    break;
+case 3:
+    System.out.println("\nTotal messages sent: " + totalMessagesSent);
+    System.out.println("Exiting application. Goodbye!");
+    break;
+case 4:
+    storedMessagesMenu(input);
+    break;
+default:
+    System.out.println("Invalid option. Try again.");
+}
+    }
+    input.close();
+}
 
-            System.out.println("\nTotal messages sent: " + totalMessagesSent);
-            System.out.println("Goodbye!");
-        } else {
-            System.out.println("Login failed. Exiting program.");
-        }
-        input.close();
+    // === STORED MESSAGES SUB-MENU ===
+    private static void storedMessagesMenu(Scanner input) {
+        String subChoice;
+        do {
+            System.out.println("\n=== STORED MESSAGES SUB-MENU ===");
+            System.out.println("a) Display all stored messages");
+            System.out.println("b) Display longest message");
+            System.out.println("c) Search by message ID");
+            System.out.println("d) Search by recipient");
+            System.out.println("e) Delete by message hash");
+            System.out.println("f) Display full report");
+            System.out.println("q) Return to Main Menu");
+            System.out.print("Choose an option: ");
+
+            subChoice = input.nextLine().toLowerCase().trim();
+
+            switch (subChoice) {
+                case "a":
+                    Message.displayAllStored();
+                    break;
+                case "b":
+                    System.out.println("Longest Message:\n" + Message.displayLongestMessage());
+                    break;
+                case "c":
+                    System.out.print("Enter Message ID to search: ");
+                    String idInput = input.nextLine();
+                    System.out.println(Message.searchByMessageID(idInput));
+                    break;
+                case "d":
+                    System.out.print("Enter Recipient cell number: ");
+                    String recInput = input.nextLine();
+                    System.out.println(Message.searchByRecipient(recInput));
+                    break;
+                case "e":
+                    System.out.print("Enter Message Hash to delete: ");
+                    String hashInput = input.nextLine();
+                    System.out.println(Message.deleteByHash(hashInput));
+                    break;
+                case "f":
+                    System.out.println(Message.printMessages());
+                    break;
+                case "q":
+                    System.out.println("Returning to main menu...");
+                    break;
+                default:
+                    System.out.println("Invalid selection. Please use letters a - f or q.");
+            }
+        } while (!subChoice.equalsIgnoreCase("q"));
     }
 }

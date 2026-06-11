@@ -1,1 +1,8 @@
 {"MessageID":"4144402","MessageNumber":0,"Recipient":"+27766076594","Message":"Hello","MessageHash":"41:0:HELLOHELLO"}
+{"MessageID":"1234567","MessageNumber":0,"Recipient":"+27834557896","Message":"Where are you? You are late! I have asked you to be on time.","MessageHash":"12:0:WHERETIME"}
+{"MessageID":"2345678","MessageNumber":1,"Recipient":"+27838884567","Message":"Did you get the cake?","MessageHash":"23:1:DIDCAKE"}
+{"MessageID":"3456789","MessageNumber":2,"Recipient":"+27831234567","Message":"Ok, I am leaving without you.","MessageHash":"34:2:OKYOU"}{"MessageNumber":5,"Message":"why don't i know you?","Recipient":"+27834557896","MessageHash":"25:5:WHYYOU","MessageID":"2537313"}
+{"MessageNumber":9,"Message":"i need to know who you are","Recipient":"+27838884567","MessageHash":"31:9:IARE","MessageID":"3172893"}
+{"MessageNumber":7,"Message":"how about lunch after school?","Recipient":"+27834484567","MessageHash":"39:7:HOWSCHOOL","MessageID":"3972570"}
+{"MessageNumber":7,"Message":"how are you?","Recipient":"+27834884567","MessageHash":"72:7:HOWYOU","MessageID":"7228277"}
+{"MessageNumber":9,"Message":"how are you?","Recipient":"+2748884567","MessageHash":"63:9:HOWYOU","MessageID":"6380299"}
