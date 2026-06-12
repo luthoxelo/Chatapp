@@ -33,6 +33,7 @@ Java console app for PROG5121 POE. Users can register, login, send/store/discard
 ### How to Test
 ```bash
 mvn test
+```
 
 ## Project Video Demonstration
 
