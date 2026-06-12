@@ -32,3 +32,9 @@ Java console app for PROG5121 POE. Users can register, login, send/store/discard
 ### How to Test
 ```bash
 mvn test
+
+## Project Video Demonstration
+
+Click the link below to watch the video demonstration of this application:
+
+[ Watch the Project Demonstration Video Here] https://youtu.be/BYTH_D4bL_Y
