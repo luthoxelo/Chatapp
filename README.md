@@ -37,4 +37,4 @@ mvn test
 
 Click the link below to watch the video demonstration of this application:
 
-[ Watch the Project Demonstration Video Here] https://youtu.be/BYTH_D4bL_Y
+[Watch the Project Demonstration Video Here](https://youtu.be/BYTH_D4bL_Y)
