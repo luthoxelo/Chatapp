@@ -1,3 +1,4 @@
+nano README.md
 # PROG5121 POE Part 3 - Chat App
 
 Java console app for PROG5121 POE. Users can register, login, send/store/discard messages, and view reports. Part 3 implements message storage, search, delete, and longest message features using parallel arrays.
@@ -37,4 +38,4 @@ mvn test
 
 Click the link below to watch the video demonstration of this application:
 
-[ Watch the Project Demonstration Video Here] https://youtu.be/BYTH_D4bL_Y
+[Watch the Project Demonstration Video Here](https://youtu.be/BYTH_D4bL_Y)
